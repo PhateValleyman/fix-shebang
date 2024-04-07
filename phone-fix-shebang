@@ -2,7 +2,7 @@
 
 # Function to display usage information
 display_usage() {
-	echo -e 'Usage: \e[01;33mfix-shebang\e[0m [\e[01;32moptions\e[0m] <files>'
+	echo -e 'Usage: \e[01;33mphone-shebang\e[0m [\e[01;32moptions\e[0m] <files>'
 	echo -e
 	echo -e 'Rewrite shebangs for \e[01;33mphone\e[0m to:'
 	echo -e '\e[01;36m#!/system/bin/binary\e[0m.'
@@ -10,6 +10,14 @@ display_usage() {
 	echo -e 'Options:'
 	echo -e '  \e[01;32m-a\e[0m, \e[01;32m--all\e[0m          Edit shebang of every file in all subdirectories'
 	echo -e '  \e[01;32m-h\e[0m, \e[01;32m--help\e[0m         Display this help message'
+	echo -e '  \e[01;32m-v\e[0m, \e[01;32m--version\e[0m      Display version info'
+}
+
+# Function to display version
+display_version() {
+	echo -e '\e[01;33mphone-fix-shebang\e[0m v1.1'
+	echo -e 'by PhateValleyman'
+	echo -e 'Jonas.Ned@outlook.com'
 }
 
 # Function to fix shebang in a single file
@@ -35,6 +43,10 @@ while [[ $# -gt 0 ]]; do
 	case $1 in
 		-h|--help)
 			display_usage
+			exit 0
+			;;
+		-v|--version)
+			display_version
 			exit 0
 			;;
 		-a|--all)
