@@ -23,8 +23,6 @@ display_version() {
 # Function to fix shebang in a single file
 fix_shebang() {
 	local file="$1"
-	#sed -i -E "1 s@^#\!(.*)/[sx]?bin/(.*)@#\!/data/data/com.termux/files/usr/bin/\2@" "$file"
-	#echo -e "\e[01;36m$file\e[0m edited..."
 	if sed -i -E "1 s@^#\!(.*)/[sx]?bin/(.*)@#\!/data/data/com.termux/files/usr/bin/\2@" "$file"; then
 		echo -e "\e[01;36m$file\e[0m edited..."
 	else
