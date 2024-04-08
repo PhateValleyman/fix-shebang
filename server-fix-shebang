@@ -24,9 +24,9 @@ display_version() {
 fix_shebang() {
 	local file="$1"
 	if sed -i -E "1 s@^#\!(.*)/[sx]?bin/(.*)@#\!/ffp/bin/\2@" "$file"; then
-		echo -e "\e[01;36m$file\e[0m edited..."
+		echo -e '\e[01;36m$file\e[0m edited..'"
 	else
-		echo -e "\e[01;31m$file\e[0m error..."
+		echo -e '\e[01;31m$file\e[0m error...'
 	fi
 }
 
