@@ -2,9 +2,9 @@
 
 # Function to display usage information
 display_usage() {
-	echo -e "Usage: \e[01;33mphone-shebang\e[0m [\e[01;32moptions\e[0m] <files>"
+	echo -e "Usage: \e[01;33mphone-fix-shebang\e[0m [\e[01;32moptions\e[0m] <files>"
 	echo -e
-	echo -e "Rewrite shebangs for \e[01;33mphone\e[0m to:"
+	echo -e "Rewrite shebangs for \e[01;33mrooted-phone\e[0m to:"
 	echo -e "\e[01;36m#!/system/bin/binary\e[0m."
 	echo -e
 	echo -e "Options:"
@@ -48,7 +48,6 @@ while [[ $# -gt 0 ]]; do
 			exit 0
 			;;
 		-a|--all)
-			# Find all files in subdirectories and fix their shebang
 			while IFS= read -r -d '' file; do
 				fix_shebang "$file"
 			done < <(find "$PWD" -type f -print0)

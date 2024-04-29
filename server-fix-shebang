@@ -24,7 +24,7 @@ display_version() {
 fix_shebang() {
 	local file="$1"
 	if sed -i -E "1 s@^#\!(.*)/[sx]?bin/(.*)@#\!/ffp/bin/\2@" "$file"; then
-		echo -e "\e[01;36m$file\e[0m edited.."
+		echo -e "\e[01;36m$file\e[0m edited..."
 	else
 		echo -e "\e[01;31m$file\e[0m error..."
 	fi
@@ -48,7 +48,6 @@ while [[ $# -gt 0 ]]; do
 			exit 0
 			;;
 		-a|--all)
-			# Find all files in subdirectories and fix their shebang
 			while IFS= read -r -d '' file; do
 				fix_shebang "$file"
 			done < <(find "$PWD" -type f -print0)
