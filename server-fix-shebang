@@ -2,31 +2,31 @@
 
 # Function to display usage information
 display_usage() {
-	echo -e "Usage: \e[01;33mserver-fix-shebang\e[0m [\e[01;32moptions\e[0m] <files>"
+	echo -e 'Usage: \e[01;33mserver-fix-shebang\e[0m [\e[01;32moptions\e[0m] <files>'
 	echo -e
-	echo -e "Rewrite shebangs for \e[01;33mserver\e[0m to:"
-	echo -e "\e[01;36m#!/ffp/bin/binary\e[0m."
+	echo -e 'Rewrite shebangs for \e[01;33mNSA320 Server\e[0m to:'
+	echo -e '\e[01;36m#!/ffp/bin/binary\e[0m.'
 	echo -e
-	echo -e "Options:"
-	echo -e "  \e[01;32m-a\e[0m, \e[01;32m--all\e[0m          Edit shebang of every file in all subdirectories"
-	echo -e "  \e[01;32m-h\e[0m, \e[01;32m--help\e[0m         Display this help message"
-	echo -e "  \e[01;32m-v\e[0m, \e[01;32m--version\e[0m      Display version info"
+	echo -e 'Options:'
+	echo -e '  \e[01;32m-a\e[0m, \e[01;32m--all\e[0m          Edit shebang of every file in all subdirectories'
+	echo -e '  \e[01;32m-h\e[0m, \e[01;32m--help\e[0m         Display this help message'
+	echo -e '  \e[01;32m-v\e[0m, \e[01;32m--version\e[0m      Display version info'
 }
 
 # Function to display version
 display_version() {
-	echo -e "\e[01;33mserver-fix-shebang\e[0m v1.1"
-	echo -e "by PhateValleyman"
-	echo -e "Jonas.Ned@outlook.com"
+	echo -e '\e[01;33mserver-fix-shebang\e[0m v1.2'
+	echo -e 'by PhateValleyman'
+	echo -e 'Jonas.Ned@outlook.com'
 }
 
 # Function to fix shebang in a single file
 fix_shebang() {
 	local file="$1"
-	if sed -i -E "1 s@^#\!(.*)/[sx]?bin/(.*)@#\!/ffp/bin/\2@" "$file"; then
-		echo -e "\e[01;36m$file\e[0m edited..."
+	if sed -i -E "1 s@^#\\!(.*)/[sx]?bin/(.*)@#\\!/ffp/bin/\\2@" "$file"; then
+		echo -e "\e[4mEdited:\e[0m\n\e[36m$file\e[0m"
 	else
-		echo -e "\e[01;31m$file\e[0m error..."
+		echo -e "\e[4mError:\e[0m\n\e[31m$file\e[0m"
 	fi
 }
 
@@ -60,6 +60,6 @@ while [[ $# -gt 0 ]]; do
 done
 
 # Iterate over each provided file
-for file in "$@"; do
-	fix_shebang "$(realpath "${file}")"
+for files in "$@"; do
+	fix_shebang "$(realpath "${files}")"
 done
