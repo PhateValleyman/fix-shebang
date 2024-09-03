@@ -1,0 +1,86 @@
+#!/bin/bash
+
+# Function to display usage information
+display_usage() {
+	echo -e 'Usage: \e[01;33mfix-shebang\e[0m [\e[01;32moptions\e[0m] <files>'
+	echo -e
+	echo -e 'Rewrite shebangs based on system architecture and user.'
+	echo -e
+	echo -e 'Options:'
+	echo -e '  \e[01;32m-a\e[0m, \e[01;32m--all\e[0m          Edit shebang of every file in all subdirectories'
+	echo -e '  \e[01;32m-h\e[0m, \e[01;32m--help\e[0m         Display this help message'
+	echo -e '  \e[01;32m-v\e[0m, \e[01;32m--version\e[0m      Display version info'
+}
+
+# Function to display version
+display_version() {
+	echo -e '\e[01;33mfix-shebang\e[0m v1.3'
+	echo -e 'by PhateValleyman'
+	echo -e 'Jonas.Ned@outlook.com'
+}
+
+# Function to fix shebang based on system architecture and user
+fix_shebang() {
+	local file="$1"
+	local shebang
+	case "$ARCH" in
+		"armv5" )
+			shebang="#!/ffp/bin/$(basename $(which bash))"
+			;;
+		"aarch64" )
+			if [ "$USER" = "root" ]; then
+				shebang="#!/system/bin/$(basename $(which bash))"
+			else
+				shebang="#!/data/data/com.termux/files/usr/bin/$(basename $(which bash))"
+			fi
+			;;
+		*)
+			echo -e "\e[4mError:\e[0m\n\e[31mUnknown architecture: $ARCH\e[0m"
+			return 1
+			;;
+	esac
+
+	if sed -i -E "1 s@^#\\!(.*)/[sx]?bin/(.*)@#\\!$shebang@" "$file"; then
+		echo -e "\e[4mEdited:\e[0m\n\e[36m$file\e[0m"
+	else
+		echo -e "\e[4mError:\e[0m\n\e[31m$file\e[0m"
+	fi
+}
+
+# Determine architecture and user
+ARCH=$(uname -m)
+USER=$(whoami)
+
+# Check if any arguments were provided
+if [ $# = 0 -o "$1" = "-h" -o "$1" = "--help" ]; then
+	display_usage
+	exit 1
+fi
+
+# Process command-line options
+while [[ $# -gt 0 ]]; do
+	case $1 in
+		-h|--help)
+			display_usage
+			exit 0
+			;;
+		-v|--version)
+			display_version
+			exit 0
+			;;
+		-a|--all)
+			while IFS= read -r -d '' file; do
+				fix_shebang "$file"
+			done < <(find "$PWD" -type f -print0)
+			exit 0
+			;;
+		*)
+			break
+			;;
+	esac
+done
+
+# Iterate over each provided file
+for files in "$@"; do
+	fix_shebang "$(realpath "${files}")"
+done
